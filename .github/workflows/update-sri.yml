@@ -101,6 +101,8 @@ jobs:
             "lucide-pool.js"
             "zxcvbn.js"
             "purify.min.js"
+            "lang/en.js"
+            "lang/hu.js"
             "carrypass.js"
             "argon2-bundled.min.js"
           )
