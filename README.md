@@ -1,18 +1,38 @@
 # CarryPass — Self-Hosted Edition
 
-CarryPass is a privacy-first, offline-capable password manager and team vault PWA. This is the self-hosted version — you own your data, your vault, and your deployment.
+CarryPass is a privacy-first, offline-capable password manager and team vault PWA. This guide explains how to deploy your own copy so that you control the app files, the vault file, and the hosting environment.
 
-> **Live demo:** [carrypass.net](https://carrypass.net)  
+> **Public reference deployment:** [carrypass.net](https://carrypass.net)
 
 ---
 
 ## Why Self-Host?
 
-Self-hosting is the recommended option for **teams**. It lets you:
+Self-hosting is the recommended option for teams and organizations that want to control their own deployment.
 
-- Distribute your own **team vault** with your own **secret admin password**
-- Issue your own **admin QR codes** to team members
-- Keep everything under your control — no third party ever sees your vault
+Self-hosting lets you:
+
+- host the CarryPass app under your own domain
+- distribute your own encrypted team vault
+- manage your own members, teams, and credentials
+- issue your own trusted-device onboarding QR codes
+- avoid relying on a third-party CarryPass deployment for your operational vault
+
+CarryPass remains client-side: hosting the app does **not** give the server access to plaintext passwords, member passwords, or decrypted credentials.
+
+---
+
+## Important Security Model
+
+Before deploying, understand this boundary:
+
+- CarryPass does not store plaintext credentials on the server.
+- The vault file is encrypted and can be distributed as a static file.
+- The browser must still trust the JavaScript files served by your deployment.
+- Whoever controls the hosting environment could serve modified JavaScript.
+- Self-hosting gives you control, but it also makes you responsible for deployment integrity, HTTPS, headers, backups, and updates.
+
+For high-risk environments, review the code and deployed files carefully before use.
 
 ---
 
@@ -20,74 +40,99 @@ Self-hosting is the recommended option for **teams**. It lets you:
 
 You will need:
 
-- A free account on one of: [GitHub](https://github.com), [Vercel](https://vercel.com), or [Netlify](https://netlify.com) — or your own web server
-- A text editor (Notepad on Windows, TextEdit on Mac, or [VS Code](https://code.visualstudio.com/) recommended)
-- About 30 minutes
+- a free account on one of: [GitHub](https://github.com), [Vercel](https://vercel.com), [Netlify](https://netlify.com), [Cloudflare](https://cloudflare.com), or your own web server
+- a text editor such as Notepad, TextEdit, or preferably [VS Code](https://code.visualstudio.com/)
+- a modern browser
+- about 30 minutes for a basic deployment
+- access to HTTPS for production use
 
 ---
 
 ## Step 1 — Download the Files
 
-1. Go to this repository on GitHub
-2. Click the green **Code** button → **Download ZIP**
-3. Unzip the downloaded file somewhere on your computer — you will now have a folder with all the app files
+1. Go to the CarryPass repository on GitHub.
+2. Click the green **Code** button.
+3. Choose **Download ZIP**.
+4. Unzip the downloaded file somewhere on your computer.
+5. You should now have a folder containing the app files, including `index.html`, JavaScript files, CSS files, assets, and deployment configuration files.
+
+Do not remove bundled libraries unless you know exactly what depends on them. CarryPass is designed to run without external CDN calls.
+
+> ⚠️ **Service worker file list:** CarryPass caches files for offline use through its service worker. Every file listed in the service worker's cache/precache list must also exist on your server. If a listed file is missing, the service worker may fail to install or the app may not be available offline.
 
 ---
 
-## Step 2 — Set Up Your Team Vault
+## Step 2 — Create Your Own Team Vault
 
-The vault file is what makes your deployment unique. It contains your team structure and is protected by your admin password.
+The vault file is what makes your team deployment unique. It contains encrypted team data and must be created by you.
 
-1. Open the app in your browser first — you can open `index.html` directly from the unzipped folder, or use the live demo at [carrypass.net](https://carrypass.net)
-2. Go to the **Admin** section
-3. Log in with the **demo admin password** (shown on screen)
-4. Create a **new team vault** with your own secret admin password — do not reuse the demo password
-5. Add at least **one team member** — this also generates a fresh **admin QR code** for yourself
-6. Export/download the new `team-vault.json` file
-7. Place the downloaded `team-vault.json` into the `/vault/` folder inside your unzipped files, replacing the existing one
+Create the vault in your **own local or self-hosted copy** of CarryPass. Do not create your production vault on the public reference deployment.
 
-> ⚠️ **Keep your admin password safe.** It is not stored anywhere — if you lose it, you cannot recover the vault.
+1. Open your downloaded/self-hosted CarryPass copy.
+2. Go to the team/admin vault area.
+3. If no vault file is present, CarryPass can start a new vault setup directly.
+4. Create a new vault protected by your own secret admin/member password.
+5. Create at least one admin/member record for yourself.
+6. Finalize the member/admin record and generate the onboarding QR code.
+7. Save the QR code securely or enroll your trusted device immediately.
+8. Add teams, members, and credentials as needed.
+9. Export/download the encrypted `team-vault.json` file.
+10. Place the exported `team-vault.json` into the `/vault/` folder of your self-hosted copy.
+
+> ⚠️ **Do not create production vaults on the public CarryPass reference deployment.** Use your own local or self-hosted copy so that your operational vault workflow stays under your control.
+
+> ⚠️ **Keep your admin/member password and trusted-device QR safe.** CarryPass is designed so that lost secrets cannot be recovered by a server operator.
 
 ---
 
 ## Step 3 — Deploy Your Files
 
-Choose one of the options below. All of them are free.
+Choose one of the options below.
 
 ---
 
-### Option A — GitHub Pages (Simplest)
+## Option A — GitHub Pages
 
-Best for: personal use or small teams who are comfortable with GitHub.
+Best for personal use or small teams that are comfortable with GitHub.
 
-> ⚠️ GitHub Pages does not support custom HTTP security headers. The app will still work, but you will not be able to add headers like `Content-Security-Policy`. If security headers matter to you, use Vercel or Netlify instead.
+> ⚠️ GitHub Pages is easy to use, but it does not provide the same level of custom HTTP header control as Vercel, Netlify, Cloudflare Pages, or your own server. If you need strict security headers, consider another option.
 
-1. Create a free account at [github.com](https://github.com) if you don't have one
-2. Click **+** → **New repository** — name it anything, e.g. `carrypass`
-3. Set it to **Public** (required for free GitHub Pages)
-4. Upload all your files: click **Add file** → **Upload files** → drag your entire unzipped folder contents in
-5. Click **Commit changes**
-6. Go to **Settings** → **Pages** (left sidebar)
-7. Under **Source**, select **Deploy from a branch** → choose `main` → folder `/root` → click **Save**
-8. Wait 1–2 minutes — your site will be live at `https://yourusername.github.io/carrypass`
+1. Create a free account at [github.com](https://github.com) if you do not already have one.
+2. Create a new repository, for example `carrypass`.
+3. Upload the contents of your unzipped CarryPass folder.
+4. Go to **Settings** → **Pages**.
+5. Under **Build and deployment**, choose **Deploy from a branch**.
+6. Select the branch, usually `main`.
+7. Select the root folder.
+8. Save and wait for deployment.
+9. Your site will be available at a GitHub Pages URL such as:
+
+```text
+https://yourusername.github.io/carrypass
+```
+
+> ⚠️ Free GitHub Pages for private repositories depends on your GitHub plan. Public repositories are the simplest free option.
 
 ---
 
-### Option B — Vercel (Recommended)
+## Option B — Vercel
 
-Best for: anyone who wants security headers and a clean custom domain setup.
+Best for users who want a simple deployment flow, private GitHub repositories, custom domains, and security headers.
 
-> ✅ Your GitHub repository can be **private** when deploying to Vercel — unlike GitHub Pages, Vercel does not require a public repo.
+1. Create a free account at [vercel.com](https://vercel.com).
+2. Click **Add New** → **Project**.
+3. Import your GitHub repository or upload the project directly.
+4. Leave build settings empty/default because CarryPass is a static app.
+5. Click **Deploy**.
+6. Your site will be available at a URL such as:
 
-1. Create a free account at [vercel.com](https://vercel.com)
-2. Click **Add New** → **Project**
-3. Choose **Import from GitHub** — connect your GitHub account and select your repository, or use **Deploy without a Git repository** to upload directly
-4. Leave all settings as default — click **Deploy**
-5. Your site will be live at `https://your-project-name.vercel.app` within a minute
+```text
+https://your-project-name.vercel.app
+```
 
-#### Security Headers on Vercel
+### Security Headers on Vercel
 
-The repository already includes a `vercel.json` file — it is pre-configured and you do not need to create or edit it:
+The repository may include a `vercel.json` file. If it does, review it before deployment. A recommended baseline is:
 
 ```json
 {
@@ -112,145 +157,248 @@ The repository already includes a `vercel.json` file — it is pre-configured an
 }
 ```
 
-> `wasm-unsafe-eval` is required because CarryPass uses **Argon2id** for password hashing, which runs as a WebAssembly module. `camera=self` is needed for QR code scanning.
+`wasm-unsafe-eval` is required for Argon2id WebAssembly in the current browser environment. `camera=(self)` is needed if you use QR scanning through the camera.
 
-#### Automatic SRI Hash Updates on Vercel
+### SRI Hashes on Vercel
 
-Vercel may serve your files slightly differently than your local copies, which causes **SRI (integrity) hash mismatches** that silently block scripts from loading. The repository includes a GitHub Actions workflow that fixes this automatically after every push.
+If CarryPass uses Subresource Integrity (`integrity="..."`) on local scripts or styles, deployed files must match those hashes exactly.
 
-The workflow file is already included at `.github/workflows/update-sri.yml` and is **dormant by default** — it only activates once you set a repository variable. To enable it:
+Some platforms can transform files during deployment, which may cause SRI mismatches and prevent scripts from loading. If your repository includes an SRI update workflow, enable it only after reviewing what it does.
 
-1. Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions** → **Variables** tab → **New repository variable**
-2. Set:
-   - Name: `VERCEL_URL`
-   - Value: `https://your-deployment.vercel.app` (no trailing slash)
-3. Go to **Settings** → **Actions** → **General** → **Workflow permissions** → select **Read and write permissions** → **Save**
-4. Push any change — the workflow will wait for Vercel to finish deploying, then update your `index.html` hashes automatically
+A typical workflow is:
 
-If you never set `VERCEL_URL`, the workflow does nothing. Non-Vercel users can ignore it entirely.
+1. Set a repository variable such as `VERCEL_URL`.
+2. Allow GitHub Actions write permissions if the workflow commits updated hashes.
+3. Push a change.
+4. Let the workflow fetch deployed assets and update integrity hashes.
 
-If you add new JS or CSS files later, add their filenames to the `FILES` list inside the workflow file.
-
-> This workflow was created for Vercel, but the same SRI mismatch problem can occur on Netlify or Cloudflare Pages if asset optimization is enabled. If you experience SRI errors on those platforms, adapt the workflow by changing `BASE_URL` to your deployment URL. GitHub Pages serves files as-is and is not affected.
+If you do not use SRI, this step is not needed. If you do use SRI, test the browser console after deployment and look for integrity-related errors.
 
 ---
 
-### Option C — Netlify
+## Option C — Netlify
 
-Best for: people who prefer a drag-and-drop experience.
+Best for users who prefer drag-and-drop deployment.
 
-1. Create a free account at [netlify.com](https://netlify.com)
-2. From your dashboard, drag your entire unzipped folder onto the **"Drag and drop your site folder here"** area
-3. Your site will be live instantly at a random URL like `https://random-name.netlify.app`
-4. You can rename it under **Site settings** → **Site details** → **Change site name**
+1. Create a free account at [netlify.com](https://netlify.com).
+2. From the dashboard, drag your CarryPass folder onto the deploy area.
+3. Netlify will publish the site at a generated URL.
+4. You can rename the site under **Site settings**.
 
-#### Adding Security Headers on Netlify
+### Security Headers on Netlify
 
-Create a file called `_headers` (no extension) in the root of your files with the following content:
+Create a file named `_headers` in the root of your project:
 
-```
+```text
 /*
+  Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
-  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()
+  Content-Security-Policy: default-src 'self'; frame-src 'none'; manifest-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';
 ```
+
+If you use SRI, disable asset optimization/minification features that modify JavaScript or CSS output.
 
 ---
 
-### Option D — Cloudflare Pages
+## Option D — Cloudflare Pages
 
-Best for: teams who want a fast global CDN with full control over security headers and no file transformation.
+Best for teams that want a fast global CDN and good control over file delivery.
 
-> ✅ Cloudflare Pages supports **private GitHub repositories** and gives you granular control over how your files are served — making it a solid alternative to Vercel.
+1. Create a free account at [cloudflare.com](https://cloudflare.com).
+2. Go to **Workers & Pages**.
+3. Create a new Pages project.
+4. Connect your Git repository.
+5. Leave build settings empty because CarryPass is a static app.
+6. Deploy.
+7. Your site will be available at a URL such as:
 
-1. Create a free account at [cloudflare.com](https://cloudflare.com)
-2. Go to **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-3. Connect your GitHub account and select your repository
-4. Leave build settings blank — this is a static site with no build step
-5. Click **Save and Deploy**
-6. Your site will be live at `https://your-project.pages.dev` within a minute
-
-#### Adding Security Headers on Cloudflare Pages
-
-Create a file called `_headers` (no extension) in the root of your files — the same format as Netlify:
-
+```text
+https://your-project.pages.dev
 ```
+
+### Security Headers on Cloudflare Pages
+
+Create a file named `_headers` in the root of your project:
+
+```text
 /*
+  Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
-  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()
+  Content-Security-Policy: default-src 'self'; frame-src 'none'; manifest-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';
 ```
 
-> ⚠️ In your Cloudflare Pages dashboard, go to **Settings** and make sure **Auto Minify** and **Rocket Loader** are **disabled** — these features can modify your files and break the app's integrity checks.
+> ⚠️ Disable features such as Auto Minify, Rocket Loader, or other HTML/JS/CSS rewriting features. These may break SRI hashes or alter security-sensitive files.
 
 ---
 
-### Option E — Self-Hosted Server (nginx or Apache)
+## Option E — Self-Hosted Server
 
-Best for: teams who already run their own server and want full control.
+Best for teams that already operate their own web server.
 
-> Every server setup is different, so these are general steps. If you run into issues, your server's documentation is the best reference.
+1. Copy all files from the unzipped CarryPass folder to your web root, for example:
 
-1. Copy all the files from your unzipped folder to your server's web root — typically `/var/www/html/` on Linux
-2. Make sure your server is configured to serve `index.html` as the default document
-3. Ensure your site is accessible over **HTTPS** — this is required for the PWA and service worker to function. [Let's Encrypt](https://letsencrypt.org/) provides free SSL certificates
+```text
+/var/www/html/
+```
 
-#### Recommended Security Headers
+2. Configure the server to serve `index.html` as the default document.
+3. Serve the site over HTTPS.
+4. Make sure `.wasm`, `.js`, `.css`, `.json`, `.webmanifest`, and image files are served with correct MIME types.
+5. Disable server-side transformations, minification, or injection.
+6. Confirm that `/vault/team-vault.json` is served as a static JSON file.
+7. Confirm that every file listed in the service worker cache/precache list exists at the expected path on the server.
 
-Add these to your server configuration:
+### nginx Example Headers
 
-**nginx** — add inside your `server {}` block:
+Add inside the relevant `server {}` block:
+
 ```nginx
-add_header X-Content-Type-Options "nosniff";
-add_header X-Frame-Options "DENY";
-add_header Referrer-Policy "no-referrer";
-add_header Permissions-Policy "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()";
-add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';";
+add_header Cache-Control "public, max-age=0, must-revalidate" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "DENY" always;
+add_header Referrer-Policy "no-referrer" always;
+add_header Permissions-Policy "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()" always;
+add_header Content-Security-Policy "default-src 'self'; frame-src 'none'; manifest-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';" always;
 ```
 
-**Apache** — add to your `.htaccess` file:
+### Apache Example Headers
+
+Enable the `headers` module, then add to your virtual host or `.htaccess`:
+
 ```apache
-Header set X-Content-Type-Options "nosniff"
-Header set X-Frame-Options "DENY"
-Header set Referrer-Policy "no-referrer"
-Header set Permissions-Policy "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()"
-Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
+Header always set Cache-Control "public, max-age=0, must-revalidate"
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "DENY"
+Header always set Referrer-Policy "no-referrer"
+Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), gyroscope=(), accelerometer=()"
+Header always set Content-Security-Policy "default-src 'self'; frame-src 'none'; manifest-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; worker-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';"
 ```
 
 ---
 
 ## Step 4 — Test Your Deployment
 
-Once your site is live:
+After deployment:
 
-1. Open your deployed URL in a browser
-2. Check that the app loads correctly
-3. Log in to the Admin section with your admin password
-4. Verify your team vault and members are present
-5. Install the PWA on your device — look for the **"Add to Home Screen"** prompt
-6. Turn off your internet connection and reload — the app should still work offline
+1. Open your deployed URL in a clean browser profile or private window.
+2. Open the browser developer console.
+3. Confirm there are no CSP, SRI, MIME type, or service worker errors.
+4. Confirm the app loads correctly.
+5. Confirm Argon2id works by completing login or registration.
+6. Confirm QR scanning works if you need camera access.
+7. Confirm `/vault/team-vault.json` loads successfully.
+8. Confirm that every file listed in the service worker cache/precache list exists on the deployed server.
+9. Install the PWA.
+10. Turn off the internet connection and confirm the installed PWA still opens.
+11. Confirm your trusted-device enrollment and vault access work as expected.
 
 ---
 
 ## Updating CarryPass
 
-When a new version is released:
+When a new CarryPass version is released:
 
-1. Download the new ZIP from this repository
-2. Replace all files **except** your `/vault/team-vault.json` — keep your vault file
-3. Re-upload/redeploy
+1. Back up your current deployment.
+2. Back up your `/vault/team-vault.json`.
+3. Download the new CarryPass release.
+4. Replace the app files.
+5. Keep your own `/vault/team-vault.json` unless the release notes explicitly require migration.
+6. Review changed CSP requirements if new files or browser features were added.
+7. Recalculate SRI hashes if your deployment uses them.
+8. Redeploy.
+9. Test in a clean browser profile before telling team members to use the new version.
+
+---
+
+## Updating the Team Vault
+
+When you change teams, members, credentials, or access:
+
+1. Open the admin panel.
+2. Make the required changes.
+3. Export a fresh `team-vault.json`.
+4. Replace the deployed `/vault/team-vault.json`.
+5. Redeploy or upload the file.
+6. Ask users to reload the app.
+
+If the old vault file is cached, users may need to hard refresh or clear the PWA cache. Your `Cache-Control` header should use `max-age=0, must-revalidate` so that browsers check for updates.
+
+---
+
+## Backups
+
+Back up at least:
+
+- your latest `team-vault.json`
+- any trusted-device recovery/export files you intentionally created
+- the deployment version you are currently using
+- documentation of who has admin/member access
+
+Do not store admin/member passwords in plaintext next to the vault file.
 
 ---
 
 ## Important Notes
 
-- **Do not modify the app files** unless you know what you are doing — the integrity of the security features depends on them being unchanged
-- **Your vault file is the only thing that is unique to your deployment** — back it up
-- **HTTPS is required** — the service worker and PWA features will not work without it
+- Do not deploy demo vaults, demo passwords, or demo QR codes for real use.
+- Do not modify cryptographic files unless you know exactly what you are doing.
+- Use HTTPS in production.
+- Keep the vault file backed up.
+- Keep old vault files private; they may still contain credentials that were valid at the time of export.
+- If a member is removed, rotate any underlying service passwords that the member may already have seen.
+- If your hosting platform rewrites JavaScript, CSS, or HTML, disable that feature or SRI/CSP may break the app.
+- Treat your hosting environment as trusted code delivery infrastructure.
+
+---
+
+## Troubleshooting
+
+### The app opens but buttons do nothing
+
+Check the browser console for:
+
+- CSP errors
+- SRI integrity mismatch errors
+- MIME type errors
+- blocked WebAssembly loading
+
+### QR scanning does not work
+
+Check that:
+
+- the site is served over HTTPS
+- camera permission is allowed
+- the `Permissions-Policy` header allows `camera=(self)`
+
+### Offline mode does not work
+
+Check that:
+
+- the service worker registered successfully
+- the site was loaded once while online
+- HTTPS is enabled
+- the browser did not block service workers
+- every file listed in the service worker cache/precache list exists on the server at the exact expected path
+- no listed file returns `404`, an HTML error page, or the wrong MIME type
+
+### The vault does not update
+
+Check that:
+
+- `/vault/team-vault.json` was replaced
+- the browser is not using an old cached copy
+- `Cache-Control` is set to `max-age=0, must-revalidate`
+- users have reloaded the PWA
+
+### Scripts are blocked after deployment
+
+If you use SRI, verify that the deployed files match the hashes in `index.html`. If your host modifies files, disable modification or update the SRI hashes after deployment.
 
 ---
 
