@@ -98,6 +98,7 @@ jobs:
             "eff_words_real.js"
             "eff_memorable_words.js"
             "eff_short_words.js"
+            "diceware_hungarian.js"
             "lucide-pool.js"
             "zxcvbn.js"
             "purify.min.js"
