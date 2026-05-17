@@ -8,7 +8,7 @@ CarryPass is a privacy-first, offline-capable password manager and team vault PW
 
 ## Why Self-Host?
 
-Self-hosting is the recommended option for teams and organizations that want to control their own deployment.
+For teams using CarryPass with real shared credentials, self-hosting is the preferred deployment model if the team can maintain the deployment responsibly.
 
 Self-hosting lets you:
 
