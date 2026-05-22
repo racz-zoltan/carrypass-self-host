@@ -93,27 +93,164 @@ Choose one of the options below.
 
 ## Option A — GitHub Pages
 
-Best for personal use or small teams that are comfortable with GitHub.
+# Deploying CarryPass on GitHub Pages
 
-> ⚠️ GitHub Pages is easy to use, but it does not provide the same level of custom HTTP header control as Vercel, Netlify, Cloudflare Pages, or your own server. If you need strict security headers, consider another option.
+GitHub Pages is a simple way to publish a static CarryPass deployment for personal use, testing, or small teams that are already comfortable with GitHub.
 
-1. Create a free account at [github.com](https://github.com) if you do not already have one.
-2. Create a new repository, for example `carrypass`.
-3. Upload the contents of your unzipped CarryPass folder.
-4. Go to **Settings** → **Pages**.
-5. Under **Build and deployment**, choose **Deploy from a branch**.
-6. Select the branch, usually `main`.
-7. Select the root folder.
-8. Save and wait for deployment.
-9. Your site will be available at a GitHub Pages URL such as:
+GitHub Pages is easy to use, but it has one important limitation: it does not provide the same level of custom HTTP header control as Vercel, Netlify, Cloudflare Pages, Apache, NGINX, or your own server.
 
-```text
-https://yourusername.github.io/carrypass
+If your deployment requires strict server-side security headers, use another hosting option where headers can be configured directly.
+
+## Extra files you may need
+
+The CarryPass application files are not listed here. This section only describes additional files that may be needed or useful for a GitHub Pages deployment.
+
+### `.nojekyll`
+
+Create an empty file named:
+
+```txt
+.nojekyll
 ```
 
-> ⚠️ Free GitHub Pages for private repositories depends on your GitHub plan. Public repositories are the simplest free option.
+Place it in the publishing root selected in GitHub Pages settings.
 
----
+For example:
+
+- if GitHub Pages publishes from the repository root, place `.nojekyll` in the repository root;
+- if GitHub Pages publishes from `/docs`, place `.nojekyll` inside `/docs`.
+
+This tells GitHub Pages not to process the site as a Jekyll project. For a static client-side app, this is usually the safest option.
+
+It is especially useful if your project contains folders that begin with a dot, such as:
+
+```txt
+.well-known/
+```
+
+### Optional `.well-known/` folder
+
+You may include a `.well-known/` folder if you want to publish standardized public metadata files.
+
+Recommended structure:
+
+```txt
+.well-known/
+├── README.md
+├── security.txt
+└── change-password
+```
+
+For self-hosted deployments, review these files before publishing them.
+
+Do not publish a default `security.txt` unchanged. Replace the contact address, canonical URL, policy URL, and expiration date with values that belong to your own hosted instance.
+
+If you do not want to publish a real security contact yet, use:
+
+```txt
+security.txt.example
+```
+
+instead of:
+
+```txt
+security.txt
+```
+
+### Optional `SECURITY.md`
+
+You may add a `SECURITY.md` file to the repository root.
+
+This file can explain:
+
+- how to report security issues;
+- what kind of reports are useful;
+- what is in scope or out of scope;
+- whether acknowledgments are offered;
+- which contact address should be used.
+
+If you publish `/.well-known/security.txt`, its `Policy:` field can point to this file.
+
+Example:
+
+```txt
+Policy: https://github.com/yourname/yourrepo/blob/main/SECURITY.md
+```
+
+### Optional `CNAME`
+
+Create a file named:
+
+```txt
+CNAME
+```
+
+only if you want to use a custom domain.
+
+The file should contain only the domain name, for example:
+
+```txt
+example.com
+```
+
+Do not add `https://`, paths, or extra text.
+
+## Basic deployment steps
+
+1. Create a GitHub account if you do not already have one.
+2. Create a new repository.
+3. Upload your CarryPass files.
+4. Add an empty `.nojekyll` file to the publishing root.
+5. Optional: add `.well-known/` with reviewed public metadata files.
+6. Optional: add `SECURITY.md`.
+7. Optional: add `CNAME` if you use a custom domain.
+8. Open the repository on GitHub.
+9. Go to **Settings → Pages**.
+10. Under **Build and deployment**, select **Deploy from a branch**.
+11. Select the branch, usually `main`.
+12. Select the publishing folder, usually `/root` or `/docs`.
+13. Save and wait for GitHub Pages to publish the site.
+
+Your site will usually become available at a URL similar to:
+
+```txt
+https://yourusername.github.io/yourrepository
+```
+
+If you use a custom domain, follow GitHub’s custom domain instructions and make sure your DNS settings are correct.
+
+## Security notes
+
+A GitHub Pages deployment should be treated as public.
+
+Do not place secrets, private vault files, private keys, credentials, logs, personal data, or user-specific data in the repository.
+
+GitHub Pages is suitable for hosting a static client-side app, but it is not the best choice if you need strict custom HTTP security headers.
+
+For stricter deployments, prefer a host where you can configure headers such as:
+
+```txt
+Content-Security-Policy
+Permissions-Policy
+X-Frame-Options
+Referrer-Policy
+X-Content-Type-Options
+```
+
+## Official GitHub documentation
+
+For the most accurate and up-to-date deployment instructions, use GitHub’s official documentation:
+
+```txt
+https://docs.github.com/pages/quickstart
+```
+
+For publishing source settings:
+
+```txt
+https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+```
+
 
 ## Option B — Vercel
 
