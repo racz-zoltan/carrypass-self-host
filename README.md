@@ -93,8 +93,6 @@ Choose one of the options below.
 
 ## Option A — GitHub Pages
 
-# Deploying CarryPass on GitHub Pages
-
 GitHub Pages is a simple way to publish a static CarryPass deployment for personal use, testing, or small teams that are already comfortable with GitHub.
 
 GitHub Pages is easy to use, but it has one important limitation: it does not provide the same level of custom HTTP header control as Vercel, Netlify, Cloudflare Pages, Apache, NGINX, or your own server.
