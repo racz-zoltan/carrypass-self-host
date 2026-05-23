@@ -9696,7 +9696,7 @@ function diceCodeToIndex(code) {
 }
 
 
-function getDicewareWordsFrom1296List(wordList, count = 6) {
+function getDicewareWordsFrom1296List(wordList, count = 8) {
   if (!Array.isArray(wordList)) {
     throw new Error("wordList must be an array");
   }
@@ -9748,8 +9748,8 @@ function generateBothDicewareSuggestions() {
     return;
   }
 
-  const englishWords = getDicewareWordsFrom1296List(EFF_MEMORABLE_WORDS, 6);
-  const hungarianWords = getDicewareWordsFrom1296List(HUNGARIAN_WORDS, 6);
+  const englishWords = getDicewareWordsFrom1296List(EFF_MEMORABLE_WORDS, 8);
+  const hungarianWords = getDicewareWordsFrom1296List(HUNGARIAN_WORDS, 8);
 
   renderDicewareLine("dicewareEnglishWords", englishWords, false);
   renderDicewareLine("dicewareHungarianWords", hungarianWords, false);
@@ -9764,4 +9764,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+
+
+// DEMO
+(function () {
+const tabs = document.querySelectorAll('.pwa-tab');
+const panels = document.querySelectorAll('.pwa-panel');
+
+tabs.forEach(tab => {
+tab.addEventListener('click', () => {
+const target = tab.dataset.panel;
+
+tabs.forEach(t => {
+t.classList.remove('is-active');
+t.setAttribute('aria-selected', 'false');
+});
+panels.forEach(p => p.classList.remove('is-active'));
+
+tab.classList.add('is-active');
+tab.setAttribute('aria-selected', 'true');
+
+const panel = document.getElementById('pwa-panel-' + target);
+if (panel) panel.classList.add('is-active');
+});
+});
+}());
+
+document.getElementById('openDemoModal')?.addEventListener('click', () => {
+document.getElementById('demo-modal').classList.remove('hidden');
+document.getElementById('demo-modal').classList.add('active');
+});
+
+document.getElementById('openDemoModalAdmin')?.addEventListener('click', () => {
+document.getElementById('demo-modal').classList.remove('hidden');
+document.getElementById('demo-modal').classList.add('active');
+});
+
+document.getElementById('closeDemoModal')?.addEventListener('click', () => {
+document.getElementById('demo-modal').classList.remove('active');
+document.getElementById('demo-modal').classList.add('hidden');
+});
 
