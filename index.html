@@ -44,8 +44,9 @@
     <link rel="apple-touch-startup-image" href="/splash-1536x2048.png" media="(min-device-width: 768px) and (max-device-width: 1024px)">
     <link rel="apple-touch-startup-image" href="/splash-2048x2732.png" media="(min-device-width: 1024px) and (max-device-width: 1366px)">
     
-    <link rel="stylesheet" href="carrypass-theme.css" integrity="sha384-LxXtI33yeFWxMgciD7Y4VZ6Uj4M9VDLTnHdPlB4MM3WYVOThq7Xs8UprkoloQYMP" crossorigin="anonymous">
+    <link rel="stylesheet" href="carrypass-theme.css" integrity="sha384-h7Ja2iyXK4RAzukD6LLvXV1QXnalHTqkHIPHlQk8ejuS+Jt4YMtW8WJ9vdkL6ZoM" crossorigin="anonymous">
     <script src="lucide.min.js" integrity="sha384-1WBlizZxaHNZADu+vujEL0zCN6BYOAzpLXB3HHLkdb5oOd3rxlWlCNuws/tVj4Cu" crossorigin="anonymous"></script>
+    <script src="theme-init.js" integrity="sha384-RrKx+7wFVzE7cX7XIUj0SB2lmI8eYaPXqH0CHo4FTxNjxBcCAo8V5p4s1/eeddBH" crossorigin="anonymous"></script>
 
 </head>
       
@@ -66,7 +67,10 @@
         </a>
       </div>
       <div class="navbar-right">
-        <a href="#demo" class="btn primary" data-i18n="CTAfree">Live tool</a>
+        <a href="#demo" class="btn primary" data-i18n="CTAfree">Start now</a>
+        <button id="themeToggle" class="dw-theme-toggle" type="button">
+          <i id="themeToggleIcon" data-lucide="moon" aria-hidden="true"></i>
+        </button>
       </div>
     </header>
     <div class="custom-dropdown language-switcher">
@@ -80,241 +84,6 @@
       <p class="cp-desc-hero" data-i18n="heroSubtitle">CarryPass enables encrypted access that expires, rotates, and revokes — without orphaned accounts or forgotten credentials. No identity provider needed. Access exists cryptographically, or it doesn't.</p>
     </header>
 
-<section class="cp-scene">
-<div class="cp-copy">
-<span class="cp-eyebrow" data-i18n="deviceShowcaseEyebrow">Works Everywhere</span>
-<h2 class="cp-heading" data-i18n="deviceShowcaseTitle">On every device,<br><em>even offline.</em></h2>
-<p class="cp-desc" data-i18n="deviceShowcaseDesc">CarryPass runs as a Progressive Web App — no app store, no installation friction. Your team's access is available on desktop and mobile, online or off.</p>
-</div>
-
-<div class="cp-devices">
-<div class="cp-frame cp-frame--desktop">
-<img src="cp_desktop_display.png" alt="CarryPass desktop view">
-</div>
-<div class="cp-frame cp-frame--mobile">
-<img src="cp_mobile_display.png" alt="CarryPass mobile view">
-</div>
-<div class="cp-badge" data-i18n="deviceShowcaseBadge">Desktop &amp; Mobile</div>
-</div>
-
-</section>
-
-<section class="pwa-how">
-
-<div class="pwa-how__header">
-<span class="pwa-how__eyebrow" data-i18n="pwaEyebrow">Install the app</span>
-<h2 class="pwa-how__title" data-i18n="pwaTitle">On every device,<br><em>no app store needed.</em></h2>
-<p class="pwa-how__subtitle" data-i18n="pwaSubtitle">CarryPass is a Progressive Web App. Install it in seconds directly from your browser — it runs like a native app with no download required.</p>
-</div>
-
-<div class="pwa-how__tabs" role="tablist">
-
-<button class="pwa-tab is-active" role="tab" aria-selected="true" data-panel="ios">
-<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-<span data-i18n="pwaTabIos">iOS / iPadOS</span>
-</button>
-
-<button class="pwa-tab" role="tab" aria-selected="false" data-panel="android">
-<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24A10.7 10.7 0 0 0 12 8c-1.53 0-2.98.33-4.27.91L5.85 5.67c-.19-.28-.54-.37-.83-.22-.3.16-.42.54-.26.85L6.6 9.48A9.88 9.88 0 0 0 2 17h20a9.88 9.88 0 0 0-4.4-7.52zM8.5 14.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm7 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
-<span data-i18n="pwaTabAndroid">Android</span>
-</button>
-
-<button class="pwa-tab" role="tab" aria-selected="false" data-panel="desktop">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-<span data-i18n="pwaTabDesktop">Desktop</span>
-</button>
-
-</div>
-
-<div class="pwa-panel is-active" id="pwa-panel-ios" role="tabpanel">
-<div class="pwa-grid">
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4A90D9" stroke-width="1.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2" stroke="#4A90D9" stroke-width="1.5" stroke-linecap="round"/><path d="M15.5 8.5l-7 7M16 8l-3 1-1 3-3 1 1-3 3-1z" stroke="#E5A800" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaSafariName">Safari</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaSafariSub">iPhone &amp; iPad · Required</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaSafariStep1">Open CarryPass in <strong>Safari</strong> — the default iOS browser.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaSafariStep2">Tap the <span class="pwa-ui"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg> Share</span> button in the bottom toolbar.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaSafariStep3">Scroll down and tap <strong>"Add to Home Screen"</strong>.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaSafariStep4">Confirm the name and tap <strong>Add</strong> — done.</span></li>
-</ol>
-</div>
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="#4285F4"/><path d="M12 8h8.66A10 10 0 1 0 7.08 19.5L11 13" stroke="#EA4335" stroke-width="1.5"/><path d="M12 8H3.34M7.08 19.5L11.5 12" stroke="#34A853" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="#4285F4"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaChromeEdgeIosName">Chrome &amp; Edge</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaChromeEdgeIosSub">iPhone &amp; iPad · Supported</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaChromeEdgeIosStep1">Open CarryPass in <strong>Chrome</strong> or <strong>Edge</strong> on iOS.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaChromeEdgeIosStep2">Tap the <span class="pwa-ui"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/></svg> Share</span> button in the bottom toolbar.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaChromeEdgeIosStep3">Tap <strong>"Add to Home Screen"</strong>.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaChromeEdgeIosStep4">Confirm the name and tap <strong>Add</strong> — done.</span></li>
-</ol>
-<p class="pwa-unsupported-note" data-i18n="pwaChromeEdgeIosNote">Firefox for iOS does not support PWA installation. Use Safari, Chrome, or Edge instead.</p>
-</div>
-
-</div>
-<div class="pwa-tip">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-<span data-i18n="pwaIosTip">On iOS 16.4+ the installed app can show local notifications about vault status. CarryPass does not subscribe to any external push service. If notifications are added in a future update, you'll be prompted to allow them.</span>
-</div>
-</div>
-
-<div class="pwa-panel" id="pwa-panel-android" role="tabpanel">
-<div class="pwa-grid">
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="#4285F4"/><path d="M12 8h8.66A10 10 0 1 0 7.08 19.5L11 13" stroke="#EA4335" stroke-width="1.5"/><path d="M12 8H3.34M7.08 19.5L11.5 12" stroke="#34A853" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="#4285F4"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaAndroidChromeName">Chrome</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaAndroidChromeSub">Android · Recommended</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaAndroidChromeStep1">Open CarryPass in <strong>Chrome</strong>.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaAndroidChromeStep2">A banner may appear at the bottom — tap <strong>"Install"</strong> or <strong>"Add to Home screen"</strong>.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaAndroidChromeStep3">If no banner: tap the <span class="pwa-ui">⋮ Menu</span> (top-right) → <strong>"Add to Home screen"</strong>.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaAndroidChromeStep4">Tap <strong>Install</strong> in the confirmation dialog.</span></li>
-</ol>
-</div>
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="rgba(255,109,0,0.15)"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#FF6D00"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaAndroidFirefoxName">Firefox</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaAndroidFirefoxSub">Android</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaAndroidFirefoxStep1">Open CarryPass in <strong>Firefox for Android</strong>.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaAndroidFirefoxStep2">Tap the <span class="pwa-ui">⋯ Menu</span> button.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaAndroidFirefoxStep3">Tap <strong>"Install"</strong> or <strong>"Add to Home screen"</strong>.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaAndroidFirefoxStep4">Confirm by tapping <strong>Add</strong>.</span></li>
-</ol>
-</div>
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#1428A0" stroke-width="1.5" fill="rgba(20,40,160,0.15)"/><path d="M8 12a4 4 0 0 1 8 0M6 12a6 6 0 0 1 12 0M12 8v8M9 9l6 6M15 9l-6 6" stroke="#1428A0" stroke-width="1.3" stroke-linecap="round"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaAndroidSamsungName">Samsung Internet</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaAndroidSamsungSub">Android · Samsung devices</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaAndroidSamsungStep1">Open CarryPass in <strong>Samsung Internet</strong>.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaAndroidSamsungStep2">Tap the <span class="pwa-ui">☰ Menu</span> at the bottom.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaAndroidSamsungStep3">Tap <strong>"Add page to"</strong> → <strong>"Home screen"</strong>.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaAndroidSamsungStep4">Tap <strong>Add</strong> to confirm.</span></li>
-</ol>
-</div>
-
-</div>
-<div class="pwa-tip">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-<span data-i18n="pwaAndroidTip">On Android, Chrome gives the richest install experience including a proper splash screen and standalone window. If you're on a Samsung device, Samsung Internet works equally well.</span>
-</div>
-</div>
-
-<div class="pwa-panel" id="pwa-panel-desktop" role="tabpanel">
-<div class="pwa-grid">
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="#4285F4"/><path d="M12 8h8.66A10 10 0 1 0 7.08 19.5L11 13" stroke="#EA4335" stroke-width="1.5"/><path d="M12 8H3.34M7.08 19.5L11.5 12" stroke="#34A853" stroke-width="1.5"/><circle cx="12" cy="12" r="3" fill="#4285F4"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaDesktopChromeName">Chrome</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaDesktopChromeSub">Windows · macOS · Linux</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaDesktopChromeStep1">Open CarryPass in <strong>Chrome</strong>.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaDesktopChromeStep2">Look for the Install icon on the right side of the address bar.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaDesktopChromeStep3">Click it, then click <strong>"Install"</strong> in the prompt.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaDesktopChromeStep4">CarryPass opens as a standalone window — pinnable to your taskbar.</span></li>
-</ol>
-</div>
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><path d="M21 12.5C21 17.19 17.19 21 12.5 21a8.5 8.5 0 0 1-7.38-4.28" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/><path d="M3 12.5C3 7.81 6.81 4 11.5 4c2.8 0 5.29 1.3 6.93 3.33" stroke="#50E6FF" stroke-width="1.5" stroke-linecap="round"/><path d="M7 15c.9 2.4 3.2 4 5.8 4 2.9 0 5.4-1.9 6.2-4.8" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaDesktopEdgeName">Microsoft Edge</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaDesktopEdgeSub">Windows · macOS</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaDesktopEdgeStep1">Open CarryPass in <strong>Edge</strong>.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaDesktopEdgeStep2">Look for the Install app icon on the right side of the address bar.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaDesktopEdgeStep3">Click it, then click <strong>"Install"</strong> in the prompt.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaDesktopEdgeStep4">CarryPass will appear in your Start menu and taskbar.</span></li>
-</ol>
-</div>
-
-<div class="pwa-card">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4A90D9" stroke-width="1.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2" stroke="#4A90D9" stroke-width="1.5" stroke-linecap="round"/><path d="M15.5 8.5l-7 7M16 8l-3 1-1 3-3 1 1-3 3-1z" stroke="#E5A800" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaDesktopSafariName">Safari</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaDesktopSafariSub">macOS Sonoma 14+</div>
-</div>
-</div>
-<ol class="pwa-steps">
-<li><span class="pwa-step-num">1</span><span data-i18n="pwaDesktopSafariStep1">Open CarryPass in <strong>Safari</strong> on macOS Sonoma or later.</span></li>
-<li><span class="pwa-step-num">2</span><span data-i18n="pwaDesktopSafariStep2">Click <strong>File</strong> in the menu bar.</span></li>
-<li><span class="pwa-step-num">3</span><span data-i18n="pwaDesktopSafariStep3">Select <strong>"Add to Dock"</strong>.</span></li>
-<li><span class="pwa-step-num">4</span><span data-i18n="pwaDesktopSafariStep4">Click <strong>Add</strong> — the app appears in your Dock.</span></li>
-</ol>
-</div>
-
-<div class="pwa-card pwa-card--unsupported">
-<div class="pwa-card__browser">
-<div class="pwa-card__icon">
-<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="rgba(255,109,0,0.1)"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke="#FF6D00" stroke-width="1.5"/></svg>
-</div>
-<div>
-<div class="pwa-card__browser-name" data-i18n="pwaDesktopFirefoxName">Firefox</div>
-<div class="pwa-card__browser-sub" data-i18n="pwaDesktopFirefoxSub">Desktop — Not supported</div>
-</div>
-</div>
-<p class="pwa-unsupported-note" data-i18n="pwaDesktopFirefoxNote">Firefox on desktop does not support PWA installation. Use Chrome or Edge for the best desktop install experience.</p>
-</div>
-
-</div>
-<div class="pwa-tip">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-<span data-i18n="pwaDesktopTip">Once installed, CarryPass on desktop gets its own window, taskbar/Dock entry, and runs independently of the browser. It feels and behaves like a native app.</span>
-</div>
-</div>
-
-</section>
     <div class="container" id="demo">
       <form id="registrationForm" class="grid split">
         <div class="column-left column-left--registration">
@@ -414,7 +183,7 @@
       </form>
     </div>
     <footer class="footer">
-      
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
     </footer>
   </div>
 
@@ -466,7 +235,7 @@
       </form>
     </div>
     <footer class="footer">
-      
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
     </footer>
   </div>
 
@@ -531,7 +300,7 @@
       </form>
     </div>
     <footer class="footer">
-    
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
     </footer>
   </div>
 
@@ -563,7 +332,7 @@
       </form>
     </div>
     <footer class="footer">
-       
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
     </footer>
   </div>
 
@@ -627,7 +396,7 @@
       </form>
     </div>
     <footer class="footer">
-       
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
     </footer>
   </div>
 
@@ -740,7 +509,7 @@
           </form>
         </div>
         <footer class="footer">
-      
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
         </footer>
     </div>
 
@@ -940,7 +709,7 @@
       </form>
     </div>
     <footer class="footer">
-       
+      <a href="https://carrypass.net" class="lang-link active">CarryPass &copy; 2022–<span class="current-year"></span></a>
     </footer>
   </div>
   <div id="teamModal" class="modal hidden">
@@ -1219,7 +988,7 @@
 <div id="slideMenu" class="slide-menu hidden">
   <div class="slide-menu-header">
     <span data-i18n="sideMenu">Menu</span>
-    <button type="button" id="closeSlideMenu" class="btn icon-only small icon-trash"><i data-lucide="x"></i></button>
+    <button type="button" id="closeSlideMenuBtn" class="btn icon-only small icon-trash"><i data-lucide="x"></i></button>
   </div>
   <div class="slide-menu-items">
     <button class="slide-menu-item" id="menuCreateCustomType" data-i18n="menuCreateCustomType">Create Custom Password Type</button>
@@ -1227,6 +996,7 @@
     <button class="slide-menu-item" id="menuImport" data-i18n="menuImport">Import Service Settings</button>
     <button class="slide-menu-item" id="menuSetPin" data-i18n="menuSetPin">Set Screen Lock PIN</button>
     <button class="slide-menu-item" id="menuLockNow" data-i18n="menuLockNow">Lock Screen</button>
+    <button class="slide-menu-item" id="menuThemeToggle" data-i18n="menuSwitchToDark">Switch to dark mode</button>
   </div>
 </div>
 
@@ -1292,8 +1062,8 @@
 <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
 
-<script src="lang/en.js" integrity="sha384-BPtAm4IHaqRr4mBXScg91c47XVL12YfMcoUPePWEPW81ThpAMU5Uy6FBxVFjzWbC" crossorigin="anonymous"></script>
-<script src="lang/hu.js" integrity="sha384-8d9ikZ8Tf2o2A1wrq0QD+x2+9HeZvnDLulTtXts3dAGqAFNvWzGxZKz7HACZb/qC" crossorigin="anonymous"></script>
+<script src="lang/en.js" integrity="sha384-fUZt7b/E6gF3HaZN/kCgX8nsRQq/fH99rkZCwa629A2d671R9c3YMJAfE5NJeYKH" crossorigin="anonymous"></script>
+<script src="lang/hu.js" integrity="sha384-4D+es5KS5zfHjaZwsQ13UvqaxUAlVPZaNy5t7+XhvWTyycvEem6pnV7XoAl77SPM" crossorigin="anonymous"></script>
 <script src="qrcode.min.js" integrity="sha384-3zSEDfvllQohrq0PHL1fOXJuC/jSOO34H46t6UQfobFOmxE5BpjjaIJY5F2/bMnU" crossorigin="anonymous"></script>
 <script src="html5-qrcode.min.js" integrity="sha384-c9d8RFSL+u3exBOJ4Yp3HUJXS4znl9f+z66d1y54ig+ea249SpqR+w1wyvXz/lk+" crossorigin="anonymous"></script>
 <script src="eff_words_real.js" integrity="sha384-v7Az1OlYs6xPcT+lRCC04imMbyZGazk3ZKpy3fCMY/2giODOCDy+H29Rnxwg2EWN" crossorigin="anonymous"></script>
@@ -1303,6 +1073,6 @@
 <script src="lucide-pool.js" integrity="sha384-61y7KTRnp6QDDqrOnaE/JhntEFBbDofgVYfBkUQme3VPgqRcVsTuZ9BayRN4uVzs" crossorigin="anonymous"></script>
 <script src="zxcvbn.js" integrity="sha384-fusiA+sr7zfg9pPJeBibshVIHURK5DevSR7JUQmmjnAStj1JWzUrISAC74Kz0DrO" crossorigin="anonymous"></script>
 <script src="purify.min.js" integrity="sha384-PNrLTuEZCIexFL3IeKVxzGY2Xzk1RCbJpcvRWVzlvadxKsNBDN4+iq94kWHgWlLZ" crossorigin="anonymous"></script>
-<script src="carrypass.js" integrity="sha384-HLkXj3CvZaN7KasFy0Pa6cmOx2hAHUCKwM97sopOGIbTgIl2xmI06F0RAnpeN4b6" crossorigin="anonymous" defer></script>
+<script src="carrypass.js" integrity="sha384-F8ejEFsbdNTZeaWU8nPiDec53ZaowjXkRQbix08cL4GvoJdlpys6Dicvg2dycXl6" crossorigin="anonymous"></script>
 </body>
 </html>

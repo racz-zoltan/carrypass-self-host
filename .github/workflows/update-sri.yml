@@ -106,6 +106,7 @@ jobs:
             "lang/hu.js"
             "carrypass.js"
             "argon2-bundled.min.js"
+            "theme-init.js"
           )
 
           # Build a JSON map of filename -> hash

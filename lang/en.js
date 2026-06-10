@@ -120,7 +120,7 @@ window.translations.en = {
   "appSubtitle": "CarryPass: a privacy-first password manager — built on end-to-end encryption for credential sharing, with no accounts and no tracking.",
   "appSubtitleSub": "Keep total control over your data with zero-knowledge, offline-first design, and customizable cryptography.",
   "startAppButton": "Open CarryPass",
-  "CTAfree": "Start Now",
+  "CTAfree": "Start now",
   "CTAcustom": "Self Host",
   "ownSecurity": "Own Your Security",
   "protectReputation": "Protect Your Reputation",
@@ -212,7 +212,7 @@ window.translations.en = {
   "privacyLabel": "Privacy",
   "ctfLabel": "CTF",
   "getModelLabel": "Get CarryPass",
-  "aboutUs": "About",
+  "aboutUs": "Manual",
   "demoDisclaimer": "Disclaimer",
   "showButton": "Show",
   "copyButton": "Copy",
@@ -494,6 +494,10 @@ window.translations.en = {
   "confirmationTitle": "Confirmation needed",
   "close": "Close",
   "generateNew": "Generate an example masterpassword",
-  "iconPracticeToggle": "Practice icon path"
+  "iconPracticeToggle": "Practice icon path",
+  "seoSummaryTitle": "What is CarryPass?",
+  "seoSummaryText": "CarryPass is an open-source, client-side password manager and team credential-sharing tool. It runs in the browser as an offline-first Progressive Web App and uses strong cryptographic primitives to generate passwords and protect encrypted vaults without requiring accounts, telemetry, or server-side access to secrets.",
+  "menuSwitchToDark": "Switch to dark mode",
+  "menuSwitchToLight": "Switch to light mode"
 
 };

@@ -753,7 +753,7 @@ function updateEntropyUI(bits) {
 const bar = document.getElementById('entropyFill');
 const text = document.getElementById('entropyText');
 
-const MAX_BITS = 150;
+const MAX_BITS = 160;
 const pct = Math.min(100, (bits / MAX_BITS) * 100);
 bar.style.setProperty('--entropy-width', pct + "%");
 
@@ -773,7 +773,7 @@ bar.classList.add('entropy-high');
 const ADAPTIVE_ICON_ROUNDS = 3;
 const ICONS_PER_ROUND = 4;
 const ADAPTIVE_GRID_SIZE = 25;
-const REGISTER_ICON_ENTROPY_THRESHOLD = 70;
+const REGISTER_ICON_ENTROPY_THRESHOLD = 80;
 const ICON_PRACTICE_TOTAL_PASSES = 3;
 
 const ICON_STEP_ARGON2_TIME = 2;
@@ -2095,7 +2095,7 @@ if (trimmed.length < 16) {
 
 if (mode === 'register') {
   const estimatedEntropy = conservativeEntropyEstimate(trimmed);
-  if (estimatedEntropy < 70) {
+  if (estimatedEntropy < 80) {
     trimmed = null;
     showModalAlert(t("weakPassphrase", { estimatedEntropy }), null, "warning");
     return;
@@ -2689,6 +2689,16 @@ async function lockAppWithPIN(pin) {
     iv: Array.from(iv),
     cipher: Array.from(new Uint8Array(encrypted))
   };
+
+    document.querySelectorAll('.modal, .modal-edit, .modal-confirm, .carrypass-modal').forEach(modal => {
+    modal.classList.add('hidden');
+    modal.classList.remove('active');
+  });
+
+  const backdrop = document.getElementById('modalBackdrop');
+  if (backdrop) backdrop.classList.add('hidden');
+
+  closeSlideMenu();
 
   screenLockActive = true;
   screenLockActivatedAt = Date.now();
@@ -3324,6 +3334,8 @@ document.querySelectorAll('.modal, .modal-edit, .modal-confirm, .carrypass-modal
 modal.classList.add('hidden');
 modal.classList.remove('active');
 });
+
+closeSlideMenu();
 
 const backdrop = document.getElementById('modalBackdrop');
 if (backdrop) backdrop.classList.add('hidden');
@@ -7642,6 +7654,31 @@ btn.classList.remove("glow-success");
 }
 
 
+function openSlideMenu() {
+  const slideMenu = document.getElementById('slideMenu');
+  if (slideMenu) slideMenu.classList.add('open');
+
+  const menuButton = document.getElementById('menuToggle');
+  if (menuButton) menuButton.setAttribute('aria-expanded', 'true');
+
+  const backdrop = document.querySelector('.slide-menu-backdrop');
+  if (backdrop) backdrop.classList.remove('hidden');
+
+  updateThemeMenuLabel();
+}
+
+
+function closeSlideMenu() {
+  const slideMenu = document.getElementById('slideMenu');
+  if (slideMenu) slideMenu.classList.remove('open');
+
+  const menuButton = document.getElementById('menuToggle');
+  if (menuButton) menuButton.setAttribute('aria-expanded', 'false');
+
+  const backdrop = document.querySelector('.slide-menu-backdrop');
+  if (backdrop) backdrop.classList.add('hidden');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('passCodeInputRegisterShow')?.addEventListener('click', e => showManyPassword(e.currentTarget));
 document.getElementById('passCodeInputShow')?.addEventListener('click', e => showManyPassword(e.currentTarget));
@@ -8015,17 +8052,8 @@ counterEl.value = 0;
 
 const slideMenu = document.getElementById('slideMenu');
 const menuButton = document.getElementById('menuToggle');
-const closeButton = document.getElementById('closeSlideMenu');
+const closeButton = document.getElementById('closeSlideMenuBtn');
 
-function openSlideMenu() {
-  slideMenu.classList.add('open');
-  menuButton.setAttribute('aria-expanded', 'true');
-}
-
-function closeSlideMenu() {
-  slideMenu.classList.remove('open');
-  menuButton.setAttribute('aria-expanded', 'false');
-}
 
 menuButton.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -8121,6 +8149,8 @@ document.getElementById("menuLockNow").addEventListener("click", async () => {
 
 document.getElementById("menuSetPin").addEventListener("click", () => {
 slideMenu.classList.remove('open');
+const backdrop = document.querySelector('.slide-menu-backdrop');
+if (backdrop) backdrop.classList.add('hidden');
 document.getElementById("pinSettingsModal").classList.remove("hidden");
 document.getElementById("setPinInput").value = "";
 document.getElementById("setPinInput").focus();
@@ -8466,6 +8496,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const customPasswordModal = document.getElementById('customPasswordSettingsModal');
 
 function openCustomPasswordModal() {
+const backdrop = document.querySelector('.slide-menu-backdrop');
+if (backdrop) backdrop.classList.add('hidden');
 customPasswordModal.classList.remove('hidden');
 
 }
@@ -9764,3 +9796,62 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+
+function updateThemeButton() {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  const wrap = document.getElementById("themeToggle");
+  if (!wrap) return;
+
+  let icon = document.getElementById("themeToggleIcon");
+  if (!icon) {
+    icon = document.createElement("i");
+    icon.id = "themeToggleIcon";
+    icon.setAttribute("aria-hidden", "true");
+    wrap.insertBefore(icon, wrap.firstChild);
+  } else if (icon.tagName.toLowerCase() === "svg") {
+    const newIcon = document.createElement("i");
+    newIcon.id = "themeToggleIcon";
+    newIcon.setAttribute("aria-hidden", "true");
+    icon.replaceWith(newIcon);
+    icon = newIcon;
+  }
+
+  icon.setAttribute("data-lucide", isDark ? "sun" : "moon");
+  if (typeof lucide !== "undefined" && lucide.createIcons) {
+    lucide.createIcons();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("themeToggle")?.addEventListener("click", () => {
+    const html = document.documentElement;
+    const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", next);
+    try { localStorage.setItem("dw-theme", next); } catch (_) {}
+    updateThemeButton();
+  });
+
+  updateThemeButton();
+});
+
+function updateThemeMenuLabel() {
+  const btn = document.getElementById("menuThemeToggle");
+  if (!btn) return;
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  const key = isDark ? "menuSwitchToLight" : "menuSwitchToDark";
+  btn.setAttribute("data-i18n", key);
+  btn.textContent = t(key);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("menuThemeToggle")?.addEventListener("click", () => {
+    const html = document.documentElement;
+    const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", next);
+    try { localStorage.setItem("dw-theme", next); } catch (_) {}
+    updateThemeMenuLabel();
+  });
+
+  updateThemeMenuLabel();
+});

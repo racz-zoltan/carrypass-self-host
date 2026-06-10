@@ -495,5 +495,9 @@ window.translations.hu = {
     "confirmationTitle": "Megerősítésre vár",
     "close": "Bezárás",
     "generateNew": "Mesterjelszó példa generálása",
-    "iconPracticeToggle": "Ikonútvonal gyakorlása"
+    "iconPracticeToggle": "Ikonútvonal gyakorlása",
+    "seoSummaryTitle": "Mi a CarryPass?",
+    "seoSummaryText": "A CarryPass egy nyílt forráskódú, kliensoldali jelszókezelő és csoportos hozzáférésiadat-megosztó eszköz. A böngészőben fut offline működésre képes progresszív webalkalmazásként, és erős kriptográfiai megoldásokat használ jelszavak előállítására és titkosított tárolók védelmére — fiókok, telemetria vagy szerveroldali hozzáférés nélkül a titkokhoz.",
+    "menuSwitchToDark": "Váltás sötét módra",
+    "menuSwitchToLight": "Váltás világos módra"
 };

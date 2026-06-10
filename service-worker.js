@@ -8,7 +8,7 @@ const urlsToCache = [
   'argon2-bundled.min.js', 'carrypass.js', 'zxcvbn.js', 'purify.min.js',
   'qrcode.min.js', 'lucide.min.js', 'html5-qrcode.min.js', 'eff_words_real.js',
   'eff_memorable_words.js', 'eff_short_words.js', 'diceware_hungarian.js', 'lucide-pool.js',
-  'carrypass-gold-transparent.png',
+  'carrypass-gold-transparent.png','theme-init.js',
   'icon-192.png',
   'icon-512.png',
   'favicon.ico',
